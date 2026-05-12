@@ -237,7 +237,7 @@ const EXTRA_EXERCISES = [
     title: "Pedro's Weekly Diary",
     tag: "Weekly Writing",
     description: "Diário semanal em inglês sobre Pedro. A Pamela envia algumas linhas e a Yas transforma em prática guiada.",
-    url: "#"
+    url: "pedro_diary_page.html"
   }
 ];
 
