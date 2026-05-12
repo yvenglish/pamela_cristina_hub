@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YV English · Pedro's Diary</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=DM+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #05002e;
+      --bg2: #0b0638;
+      --paper: #faf7f2;
+      --text: #f5f5f7;
+      --dark-text: #1e1a1a;
+      --muted: #c8c1e9;
+      --muted-dark: #756b82;
+      --purple: #8a7cff;
+      --plum: #3d2645;
+      --orange: #c9823b;
+      --orange-soft: #f0b26c;
+      --green: #7ee0a8;
+      --red: #ff8c8c;
+      --line: rgba(255,255,255,.13);
+      --paper-line: #e7ded4;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      min-height: 100vh;
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(138,124,255,.18), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(201,130,59,.13), transparent 25%),
+        linear-gradient(145deg, #020018, var(--bg), var(--bg2));
+      color: var(--text);
+      padding: 18px 14px 70px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    button, input, textarea, select { font: inherit; }
+    .container { width: min(1040px, 100%); margin: auto; }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 36px;
+      padding: 34px 22px;
+      margin-bottom: 22px;
+      background:
+        radial-gradient(circle at 80% 0%, rgba(240,178,108,.18), transparent 35%),
+        linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
+      box-shadow: 0 24px 70px rgba(0,0,0,.28);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.08);
+      right: -120px;
+      top: -130px;
+    }
+
+    .topbar {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 30px;
+    }
+
+    .logo-mark {
+      width: 52px;
+      height: 52px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,.07);
+      border: 1px solid var(--line);
+      color: var(--paper);
+      font-weight: 950;
+      letter-spacing: -.06em;
+    }
+
+    .back-link {
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      color: var(--paper);
+      text-decoration: none;
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-weight: 850;
+      font-size: .9rem;
+    }
+
+    .eyebrow {
+      color: var(--orange-soft);
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      font-size: .72rem;
+      font-weight: 900;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 14vw, 5.5rem);
+      line-height: .92;
+      letter-spacing: -.06em;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 em { color: var(--orange-soft); font-style: italic; }
+    .hero p { color: var(--muted); max-width: 680px; position: relative; z-index: 1; }
+
+    .hero-actions {
+      display: grid;
+      gap: 10px;
+      margin-top: 22px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 14px 16px;
+      font-weight: 950;
+      cursor: pointer;
+      width: 100%;
+      transition: .2s ease;
+    }
+
+    .btn:active { transform: scale(.98); }
+    .btn.primary { background: var(--paper); color: #160b32; box-shadow: 0 12px 30px rgba(0,0,0,.22); }
+    .btn.secondary { background: transparent; border: 1px solid rgba(255,255,255,.16); color: var(--paper); }
+    .btn.danger { background: rgba(255,140,140,.14); color: #ffbaba; border: 1px solid rgba(255,140,140,.30); }
+
+    .section { margin-top: 30px; }
+    .section-title { margin-bottom: 16px; }
+    .section-title span { color: var(--orange-soft); text-transform: uppercase; letter-spacing: .16em; font-size: .72rem; font-weight: 900; }
+    .section-title h2 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 8vw, 3rem); line-height: 1; letter-spacing: -.05em; margin-top: 6px; }
+    .section-title p { color: var(--muted); margin-top: 10px; max-width: 680px; }
+
+    .panel {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      border-radius: 30px;
+      padding: 18px;
+      box-shadow: 0 18px 55px rgba(0,0,0,.18);
+    }
+
+    .form-grid { display: grid; gap: 14px; }
+    .field { display: grid; gap: 7px; }
+    .field label { font-size: .76rem; color: var(--orange-soft); text-transform: uppercase; letter-spacing: .12em; font-weight: 900; }
+
+    input, textarea, select {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.07);
+      color: var(--text);
+      border-radius: 16px;
+      padding: 13px 14px;
+      outline: none;
+    }
+
+    textarea { min-height: 110px; resize: vertical; }
+    input:focus, textarea:focus, select:focus { border-color: rgba(138,124,255,.85); box-shadow: 0 0 0 4px rgba(138,124,255,.12); }
+    select option { color: var(--dark-text); }
+
+    .form-actions { display: grid; gap: 10px; margin-top: 18px; }
+    .status { margin-top: 12px; color: var(--muted); font-size: .92rem; min-height: 22px; }
+    .status.good { color: var(--green); font-weight: 850; }
+    .status.bad { color: var(--red); font-weight: 850; }
+
+    .entries-grid { display: grid; gap: 16px; }
+
+    .entry-card {
+      background: linear-gradient(145deg, rgba(255,250,240,.98), rgba(248,245,238,.94));
+      color: #1b143d;
+      border-radius: 28px;
+      padding: 20px;
+      border: 1px solid rgba(255,255,255,.1);
+      box-shadow: 0 18px 55px rgba(0,0,0,.20);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .entry-card::before {
+      content: "";
+      position: absolute;
+      width: 74px;
+      height: 20px;
+      background: rgba(201,130,59,.25);
+      top: 12px;
+      right: 26px;
+      transform: rotate(5deg);
+      border-radius: 4px;
+    }
+
+    .entry-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: flex-start;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .entry-week {
+      color: #8b5a28;
+      text-transform: uppercase;
+      letter-spacing: .15em;
+      font-size: .68rem;
+      font-weight: 950;
+    }
+
+    .entry-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.65rem;
+      line-height: 1.05;
+      letter-spacing: -.04em;
+      margin-top: 4px;
+    }
+
+    .entry-date { color: var(--muted-dark); font-size: .82rem; white-space: nowrap; }
+
+    .entry-block {
+      border-top: 1px solid var(--paper-line);
+      padding-top: 14px;
+      margin-top: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .entry-block strong {
+      display: block;
+      color: #8b5a28;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-size: .68rem;
+      margin-bottom: 6px;
+    }
+
+    .entry-block p { color: #241d36; }
+    .entry-actions { display: grid; gap: 10px; margin-top: 18px; position: relative; z-index: 1; }
+    .entry-actions button { border: 0; border-radius: 999px; padding: 11px 14px; font-weight: 950; cursor: pointer; }
+    .listen-btn { background: #160b32; color: var(--paper); }
+    .edit-btn { background: #eadfff; color: #160b32; }
+    .delete-btn { background: #ffe0e0; color: #6b1717; }
+
+    .empty-state {
+      text-align: center;
+      color: var(--muted);
+      border: 1px dashed rgba(255,255,255,.18);
+      border-radius: 26px;
+      padding: 26px 18px;
+    }
+
+    .loading { color: var(--muted); text-align: center; padding: 20px; }
+
+    @media (min-width: 760px) {
+      body { padding: 28px 20px 80px; }
+      .hero { padding: 44px 44px; }
+      .hero-actions, .form-actions, .entry-actions { grid-template-columns: 1fr 1fr 1fr; }
+      .form-grid { grid-template-columns: 140px 1fr 1fr; }
+      .field.full { grid-column: 1 / -1; }
+      .entries-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+    <section class="hero">
+      <div class="topbar">
+        <div class="logo-mark">YV</div>
+        <a class="back-link" href="index.html">← Hub da Pamela</a>
+      </div>
+
+      <div class="eyebrow">Weekly Writing · Pamela Cristina</div>
+      <h1>Pedro’s<br><em>Diary ✦</em></h1>
+      <p>
+        Um diário semanal simples para transformar a rotina do Pedro em inglês real. Pamela escreve algumas linhas, e a Yas adiciona a versão em inglês, correções e observações.
+      </p>
+
+      <div class="hero-actions">
+        <button class="btn primary" onclick="document.getElementById('newEntry').scrollIntoView({behavior:'smooth'})">Nova entrada</button>
+        <button class="btn secondary" onclick="document.getElementById('entries').scrollIntoView({behavior:'smooth'})">Ver diário</button>
+        <button class="btn secondary" onclick="speakText('Pedro diary. Weekly English writing practice.')">🔊 Listen</button>
+      </div>
+    </section>
+
+    <section class="section" id="newEntry">
+      <div class="section-title">
+        <span>New Entry</span>
+        <h2>Adicionar ao diário</h2>
+        <p>Preencha a frase original, a versão em inglês e uma correção/observação. Tudo será salvo no Firestore.</p>
+      </div>
+
+      <form class="panel" id="diaryForm">
+        <div class="form-grid">
+          <div class="field">
+            <label for="week">Semana</label>
+            <input id="week" type="number" min="1" value="3" required>
+          </div>
+
+          <div class="field">
+            <label for="entryDate">Data</label>
+            <input id="entryDate" type="date" required>
+          </div>
+
+          <div class="field">
+            <label for="tag">Tema</label>
+            <select id="tag">
+              <option value="Daily Routine">Daily Routine</option>
+              <option value="ING Practice">ING Practice</option>
+              <option value="Do / Don't">Do / Don't</option>
+              <option value="Free Writing">Free Writing</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label for="portuguese">Original da Pamela</label>
+            <textarea id="portuguese" placeholder="Ex: Hoje Pedro brincou lá fora." required></textarea>
+          </div>
+
+          <div class="field full">
+            <label for="english">Versão em inglês</label>
+            <textarea id="english" placeholder="Ex: Pedro played outside today." required></textarea>
+          </div>
+
+          <div class="field full">
+            <label for="correction">Correção da Yas</label>
+            <textarea id="correction" placeholder="Ex: Pedro is playing outside. Use ING para algo acontecendo agora."></textarea>
+          </div>
+
+          <div class="field full">
+            <label for="notes">Notas</label>
+            <textarea id="notes" placeholder="Ex: Repetir 3x em voz alta antes da próxima aula."></textarea>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn primary" type="submit" id="saveBtn">Salvar entrada</button>
+          <button class="btn secondary" type="button" onclick="clearForm()">Limpar</button>
+          <button class="btn danger" type="button" onclick="cancelEdit()" id="cancelBtn" style="display:none">Cancelar edição</button>
+        </div>
+
+        <p class="status" id="status"></p>
+      </form>
+    </section>
+
+    <section class="section" id="entries">
+      <div class="section-title">
+        <span>History</span>
+        <h2>Entradas salvas</h2>
+        <p>As entradas aparecem automaticamente aqui depois de salvar.</p>
+      </div>
+      <div id="entriesList" class="entries-grid">
+        <p class="loading">Carregando diário...</p>
+      </div>
+    </section>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      updateDoc,
+      deleteDoc,
+      doc,
+      onSnapshot,
+      query,
+      orderBy,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCbT3tiUBvSyXmQqnlZmUNo5klbRx0yfuI",
+      authDomain: "pedro-s-diary.firebaseapp.com",
+      projectId: "pedro-s-diary",
+      storageBucket: "pedro-s-diary.firebasestorage.app",
+      messagingSenderId: "280799631840",
+      appId: "1:280799631840:web:8791c51f8480e9f93ff385",
+      measurementId: "G-30FHWTNJCE"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const diaryCollection = collection(db, "pamela_diary");
+
+    let editingId = null;
+
+    const form = document.getElementById("diaryForm");
+    const statusEl = document.getElementById("status");
+    const entriesList = document.getElementById("entriesList");
+    const saveBtn = document.getElementById("saveBtn");
+    const cancelBtn = document.getElementById("cancelBtn");
+
+    document.getElementById("entryDate").valueAsDate = new Date();
+
+    function getFormData() {
+      return {
+        week: Number(document.getElementById("week").value || 1),
+        date: document.getElementById("entryDate").value,
+        tag: document.getElementById("tag").value,
+        portuguese: document.getElementById("portuguese").value.trim(),
+        english: document.getElementById("english").value.trim(),
+        correction: document.getElementById("correction").value.trim(),
+        notes: document.getElementById("notes").value.trim(),
+        updatedAt: serverTimestamp()
+      };
+    }
+
+    function fillForm(entry) {
+      document.getElementById("week").value = entry.week || 1;
+      document.getElementById("entryDate").value = entry.date || new Date().toISOString().slice(0, 10);
+      document.getElementById("tag").value = entry.tag || "Daily Routine";
+      document.getElementById("portuguese").value = entry.portuguese || "";
+      document.getElementById("english").value = entry.english || "";
+      document.getElementById("correction").value = entry.correction || "";
+      document.getElementById("notes").value = entry.notes || "";
+    }
+
+    function showStatus(message, type = "") {
+      statusEl.textContent = message;
+      statusEl.className = "status " + type;
+    }
+
+    window.clearForm = function clearForm() {
+      form.reset();
+      document.getElementById("entryDate").valueAsDate = new Date();
+      document.getElementById("week").value = 3;
+      editingId = null;
+      saveBtn.textContent = "Salvar entrada";
+      cancelBtn.style.display = "none";
+      showStatus("");
+    };
+
+    window.cancelEdit = function cancelEdit() {
+      clearForm();
+      document.getElementById("newEntry").scrollIntoView({ behavior: "smooth" });
+    };
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const data = getFormData();
+
+      if (!data.portuguese || !data.english) {
+        showStatus("Preencha pelo menos o original e a versão em inglês.", "bad");
+        return;
+      }
+
+      saveBtn.disabled = true;
+      saveBtn.textContent = editingId ? "Atualizando..." : "Salvando...";
+
+      try {
+        if (editingId) {
+          await updateDoc(doc(db, "pamela_diary", editingId), data);
+          showStatus("Entrada atualizada com sucesso ✦", "good");
+        } else {
+          await addDoc(diaryCollection, {
+            ...data,
+            createdAt: serverTimestamp()
+          });
+          showStatus("Entrada salva com sucesso ✦", "good");
+        }
+
+        clearForm();
+      } catch (error) {
+        console.error(error);
+        showStatus("Erro ao salvar. Confira as regras do Firestore e a internet.", "bad");
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = editingId ? "Atualizar entrada" : "Salvar entrada";
+      }
+    });
+
+    function escapeHtml(text = "") {
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function renderEntries(snapshot) {
+      if (snapshot.empty) {
+        entriesList.innerHTML = '<div class="empty-state">Ainda não tem nenhuma entrada no diário.</div>';
+        return;
+      }
+
+      entriesList.innerHTML = snapshot.docs.map((docSnap) => {
+        const entry = docSnap.data();
+        const id = docSnap.id;
+        return `
+          <article class="entry-card">
+            <div class="entry-top">
+              <div>
+                <span class="entry-week">Semana ${escapeHtml(entry.week || "-")} · ${escapeHtml(entry.tag || "Diary")}</span>
+                <h3>Pedro's Diary</h3>
+              </div>
+              <span class="entry-date">${escapeHtml(entry.date || "")}</span>
+            </div>
+
+            <div class="entry-block">
+              <strong>Original da Pamela</strong>
+              <p>${escapeHtml(entry.portuguese || "")}</p>
+            </div>
+
+            <div class="entry-block">
+              <strong>English version</strong>
+              <p>${escapeHtml(entry.english || "")}</p>
+            </div>
+
+            ${entry.correction ? `
+              <div class="entry-block">
+                <strong>Correção da Yas</strong>
+                <p>${escapeHtml(entry.correction)}</p>
+              </div>
+            ` : ""}
+
+            ${entry.notes ? `
+              <div class="entry-block">
+                <strong>Notas</strong>
+                <p>${escapeHtml(entry.notes)}</p>
+              </div>
+            ` : ""}
+
+            <div class="entry-actions">
+              <button class="listen-btn" data-speak="${escapeHtml(entry.english || "")}">🔊 Listen</button>
+              <button class="edit-btn" data-id="${id}">Editar</button>
+              <button class="delete-btn" data-id="${id}">Apagar</button>
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      document.querySelectorAll(".listen-btn").forEach((button) => {
+        button.addEventListener("click", () => speakText(button.dataset.speak));
+      });
+
+      document.querySelectorAll(".edit-btn").forEach((button) => {
+        button.addEventListener("click", () => {
+          const docSnap = snapshot.docs.find(item => item.id === button.dataset.id);
+          if (!docSnap) return;
+          editingId = docSnap.id;
+          fillForm(docSnap.data());
+          saveBtn.textContent = "Atualizar entrada";
+          cancelBtn.style.display = "block";
+          showStatus("Editando entrada existente.");
+          document.getElementById("newEntry").scrollIntoView({ behavior: "smooth" });
+        });
+      });
+
+      document.querySelectorAll(".delete-btn").forEach((button) => {
+        button.addEventListener("click", async () => {
+          const confirmDelete = confirm("Apagar esta entrada do diário?");
+          if (!confirmDelete) return;
+          try {
+            await deleteDoc(doc(db, "pamela_diary", button.dataset.id));
+          } catch (error) {
+            console.error(error);
+            alert("Erro ao apagar entrada.");
+          }
+        });
+      });
+    }
+
+    const diaryQuery = query(diaryCollection, orderBy("createdAt", "desc"));
+
+    onSnapshot(diaryQuery, renderEntries, (error) => {
+      console.error(error);
+      entriesList.innerHTML = '<div class="empty-state">Erro ao carregar. Confira as regras do Firestore.</div>';
+    });
+
+    window.speakText = function speakText(text) {
+      if (!text || !window.speechSynthesis) return;
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "en-US";
+      utterance.rate = .82;
+      window.speechSynthesis.speak(utterance);
+    };
+
+    console.assert(form, "Diary form exists");
+    console.assert(entriesList, "Entries list exists");
+    console.assert(firebaseConfig.projectId === "pedro-s-diary", "Firebase project configured");
+  </script>
+</body>
+</html>
