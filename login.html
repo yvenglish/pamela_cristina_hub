@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YV English · Login Pamela</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,600;9..40,700&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#05002e;--bg2:#0b0638;--paper:#faf7f2;--text:#f5f5f7;--muted:#c8c1e9;--purple:#8a7cff;--orange:#c9823b;--orange-soft:#f0b26c;--line:rgba(255,255,255,.14)}
+    *{margin:0;padding:0;box-sizing:border-box}body{min-height:100vh;font-family:'DM Sans',system-ui,sans-serif;background:radial-gradient(circle at 15% 10%,rgba(138,124,255,.24),transparent 32%),radial-gradient(circle at 85% 20%,rgba(201,130,59,.17),transparent 30%),linear-gradient(145deg,#020018,var(--bg),var(--bg2));color:var(--text);display:grid;place-items:center;padding:22px}.login-shell{width:min(100%,430px)}.brand{text-align:center;margin-bottom:24px}.logo-mark{width:64px;height:64px;margin:0 auto 14px;border-radius:22px;display:grid;place-items:center;background:rgba(255,255,255,.07);border:1px solid var(--line);font-weight:900;font-size:1.35rem;letter-spacing:-.06em}.brand p{color:var(--orange-soft);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;font-weight:800}.login-card{position:relative;overflow:hidden;border-radius:34px;padding:30px;background:radial-gradient(circle at 80% 0%,rgba(240,178,108,.16),transparent 35%),linear-gradient(135deg,rgba(255,255,255,.12),rgba(255,255,255,.045));border:1px solid var(--line);box-shadow:0 28px 80px rgba(0,0,0,.35);backdrop-filter:blur(18px)}.login-card:before{content:"";position:absolute;width:210px;height:210px;border-radius:50%;border:1px solid rgba(255,255,255,.08);right:-88px;top:-95px}.login-content{position:relative;z-index:1}.eyebrow{color:var(--orange-soft);text-transform:uppercase;letter-spacing:.16em;font-size:.68rem;font-weight:900;margin-bottom:12px}h1{font-family:'Playfair Display',serif;font-size:clamp(2.25rem,10vw,3.5rem);line-height:.95;letter-spacing:-.04em;margin-bottom:12px}h1 em{color:var(--purple)}.subtitle{color:var(--muted);font-size:.95rem;line-height:1.6;margin-bottom:24px}label{display:block;color:var(--paper);font-size:.82rem;font-weight:800;margin-bottom:8px}input{width:100%;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.075);color:var(--text);border-radius:18px;padding:15px 16px;outline:none;font-size:1rem;transition:.2s}input::placeholder{color:rgba(245,245,247,.42)}input:focus{border-color:rgba(138,124,255,.85);box-shadow:0 0 0 4px rgba(138,124,255,.12)}.field{margin-bottom:16px}.remember{display:flex;align-items:center;gap:10px;margin:12px 0 22px;color:var(--muted);font-size:.9rem}.remember input{width:18px;height:18px;accent-color:var(--orange)}button{width:100%;border:0;cursor:pointer;border-radius:999px;padding:15px 18px;background:var(--paper);color:#160b32;font-weight:950;font-size:1rem;box-shadow:0 14px 36px rgba(0,0,0,.26);transition:.2s ease}button:active{transform:scale(.98)}.error{display:none;margin-top:14px;padding:12px 14px;border-radius:16px;background:rgba(255,140,140,.12);border:1px solid rgba(255,140,140,.32);color:#ffb1b1;font-size:.9rem}.footer-note{text-align:center;color:rgba(245,245,247,.48);font-size:.78rem;margin-top:18px}@media(max-width:420px){.login-card{padding:26px 20px;border-radius:30px}}
+  </style>
+</head>
+<body>
+  <main class="login-shell">
+    <div class="brand"><div class="logo-mark">YV</div><p>Language Academy & Method</p></div>
+    <section class="login-card"><div class="login-content">
+      <p class="eyebrow">Student Access</p><h1>Welcome<br><em>Pamela ✦</em></h1>
+      <p class="subtitle">Digite sua senha para acessar seus materiais, exercícios e flashcards.</p>
+      <form id="loginForm"><div class="field"><label for="password">Senha</label><input id="password" type="password" placeholder="Digite sua senha" autocomplete="current-password" required /></div>
+      <label class="remember"><input id="remember" type="checkbox" /> Manter conectado por 3 dias</label>
+      <button type="submit">Entrar</button><p class="error" id="errorMessage">Senha incorreta. Tente novamente.</p></form>
+    </div></section>
+    <p class="footer-note">YV English · from understanding to speaking</p>
+  </main>
+  <script>
+    const STUDENT_PASSWORD="cristina02", MASTER_PASSWORD="yv314724", AUTH_KEY="yv_pamela_auth_until", SESSION_KEY="yv_pamela_session_auth", THREE_DAYS_MS=3*24*60*60*1000;
+    if(sessionStorage.getItem(SESSION_KEY)==="true" || (Number(localStorage.getItem(AUTH_KEY)||0) && Date.now()<Number(localStorage.getItem(AUTH_KEY)))) window.location.href="index.html";
+    document.getElementById("loginForm").addEventListener("submit", e=>{e.preventDefault();const password=document.getElementById("password").value.trim();const remember=document.getElementById("remember").checked;const error=document.getElementById("errorMessage");if(password===STUDENT_PASSWORD||password===MASTER_PASSWORD){if(remember)localStorage.setItem(AUTH_KEY,String(Date.now()+THREE_DAYS_MS));else sessionStorage.setItem(SESSION_KEY,"true");window.location.href="index.html";}else{error.style.display="block";}});
+  </script>
+</body>
+</html>
