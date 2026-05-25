@@ -246,7 +246,7 @@ const EXTRA_EXERCISES = [
     tag: 
       "",
     description: "Lista de exercício de To Be",
-    url: "https://yvenglish.github.io/build_your_to_be/"
+    url: "https://yvenglish.github.io/pamela2/
   }
 
   
