@@ -227,17 +227,18 @@ const WEEKS = [
 const EXTRA_EXERCISES = [
   {
     week: 2,
-    title: "Airport + Daily Routine Practice",
+    title: "To Be",
     tag: "To Be + Do/Does",
-    description: "Diálogo Marina & Oliver, rotina diária e exercícios interativos.",
-    url: "practice.html"
+    description: "Rotina diária e exercícios interativos.",
+    url: "https://yvenglish.github.io/extra_tobe_pamela_cristina/"
   },
   {
-    week: 3,
-    title: "Pedro's Weekly Diary",
-    tag: "Weekly Writing",
-    description: "Diário semanal em inglês sobre Pedro. A Pamela envia algumas linhas e a Yas transforma em prática guiada.",
-    url: "pedro_diary_page.html"
+    week: 1,
+    title: "Build Your To BE",
+    tag: 
+      "",
+    description: "Lista de exercício de To Be",
+    url: "https://yvenglish.github.io/build_your_to_be/"
   }
 ];
 
