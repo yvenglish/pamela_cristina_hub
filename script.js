@@ -263,6 +263,7 @@ const EXTRA_CONTENT = {
     { title: "Daily routine video", description: "Adicione aqui vídeos com vocabulário de rotina diária.", url: "https://www.youtube.com/watch?v=bq6GBbh3uhU" }
   ],
   websites: [
+    { title: "The Fluency Times", description: "Notícias em inglês com texto, áudio e perguntas para praticar leitura e listening no nível certo.", url: "https://yvenglish.github.io/The-Fluency-Times/" },
     { title: "Useful websites", description: "Adicione aqui sites para prática de listening/vocabulário.", url: "" }
   ],
   notes: [
