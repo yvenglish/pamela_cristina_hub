@@ -244,10 +244,10 @@ const EXTRA_EXERCISES = [
     week: 3,
     title: "Daily Routines + To Be + Do/Does + Don't/Doesn't",
     tag: 
-      "",
+      "Routine",
     description: "Lista de exercício de To Be",
     url: "https://yvenglish.github.io/pamela2/"
-  }
+  },
 
   
 ];
