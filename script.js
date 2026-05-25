@@ -229,17 +229,27 @@ const EXTRA_EXERCISES = [
     week: 2,
     title: "To Be",
     tag: "To Be + Do/Does",
-    description: "Rotina diária e exercícios interativos.",
+    description: "Exercícios interativos.",
     url: "https://yvenglish.github.io/extra_tobe_pamela_cristina/"
   },
   {
     week: 1,
-    title: "Build Your To BE",
+    title: "Build Your To Be",
+    tag: 
+      "",
+    description: "Lista de exercício de To Be",
+    url: "https://yvenglish.github.io/build_your_to_be/"
+  },
+  {
+    week: 3,
+    title: "Daily Routines + To Be + Do/Does + Don't/Doesn't",
     tag: 
       "",
     description: "Lista de exercício de To Be",
     url: "https://yvenglish.github.io/build_your_to_be/"
   }
+
+  
 ];
 
 const EXTRA_CONTENT = {
