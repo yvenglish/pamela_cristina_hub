@@ -104,7 +104,60 @@ const flashcards = [
 
   { english: "need", portuguese: "precisar" },
   { english: "something", portuguese: "alguma coisa" },
-  { english: "Do", portuguese: "fazer / auxiliar de pergunta" }
+  { english: "Do", portuguese: "fazer / auxiliar de pergunta" },
+  { english:"What is your favorite color?", portuguese:"Qual é sua cor favorita?" },
+
+{ english:"Do you like blue?", portuguese:"Você gosta de azul?" },
+
+{ english:"She is your sister.", portuguese:"Ela é sua irmã." },
+
+{ english:"Is she your sister?", portuguese:"Ela é sua irmã?" },
+
+{ english:"Are you in the US?", portuguese:"Você está nos EUA?" },
+
+{ english:"Is she in the US?", portuguese:"Ela está nos EUA?" },
+
+{ english:"Is he in the US?", portuguese:"Ele está nos EUA?" },
+
+{ english:"Are we in the US?", portuguese:"Nós estamos nos EUA?" },
+
+{ english:"Are they in the US?", portuguese:"Eles estão nos EUA?" },
+
+{ english:"Do you live in Brazil?", portuguese:"Você mora no Brasil?" },
+
+{ english:"He isn't home.", portuguese:"Ele não está em casa." },
+
+{ english:"She isn't home.", portuguese:"Ela não está em casa." },
+
+{ english:"I am not home.", portuguese:"Eu não estou em casa." },
+
+{ english:"We aren't home.", portuguese:"Nós não estamos em casa." },
+
+{ english:"They aren't home.", portuguese:"Eles não estão em casa." },
+
+{ english:"You aren't home.", portuguese:"Você não está em casa." },
+
+{ english:"Mario is a bad person but Angelo is good.", portuguese:"Mario é uma pessoa ruim mas Angelo é bom." },
+
+{ english:"Jasper is a good friend to Pedro.", portuguese:"Jasper é um bom amigo para Pedro." },
+
+{ english:"Jasper and Oliver are good friends to Pedro.", portuguese:"Jasper e Oliver são bons amigos para Pedro." },
+
+{ english:"Fabio and I are married.", portuguese:"Fabio e eu somos casados." },
+
+{ english:"Are you married?", portuguese:"Você é casada?" },
+
+{ english:"Can I have a bottle of water?", portuguese:"Posso pedir uma garrafa de água?" },
+
+{ english:"Can I have a coke?", portuguese:"Posso pedir uma coca?" },
+
+{ english:"We are not family.", portuguese:"Nós não somos família." },
+
+{ english:"cup", portuguese:"copo" },
+
+{ english:"bottle", portuguese:"garrafa" },
+
+{ english:"water", portuguese:"água" }
 ];
 
 let state = loadState();
