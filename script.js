@@ -130,7 +130,7 @@ const WEEKS = [
     title: "Daily Routines + ING + Frequency",
     focus: "Usar rotina diária, verbos em -ing, perguntas com Do e vocabulário com -ly em frases reais sobre Pamela e Pedro.",
     pdfs: [],
-    audios: [{ label: "Pronúncia — enviado pelo WhatsApp", url: "" }],
+    audios: [],
     links: [],
     videos: [],
     exercises: [
@@ -221,6 +221,145 @@ const WEEKS = [
       { word:"something", translation:"alguma coisa", phonetic:"/sâmthing/" },
       { word:"Do", translation:"fazer / auxiliar de pergunta", phonetic:"/du/" }
     ]
+  },
+  {
+    number:4,
+    title: "Questions + Negatives + Family",
+    focus: "Praticar perguntas com To Be e Do, negativas com am not/isn't/aren't, família, cores e pedidos simples.",
+    links: [{url:"https://yvenglish.github.io/pamela_conj/"}],
+    exercises: [
+  "Responda perguntas usando Yes, I am / No, I am not.",
+  "Pratique perguntas com Do you like...?",
+  "Pratique frases com married, family e friend.",
+  "Treine pedidos simples usando Can I have...?"
+],
+    notes: [
+
+"Perguntas com To Be: Are you in the US? Is she in the US? Are they in the US?",
+
+"Perguntas com Do: Do you like blue? Do you live in Brazil?",
+
+"Negativas: I am not home. He isn't home. We aren't home.",
+
+"Can I have...? = Posso pedir...?",
+
+"Married = casado(a). Family = família. Friend = amigo(a)."
+
+],
+  classwork: [
+
+{
+title:"Questions Practice",
+instruction:"Responda as perguntas em inglês.",
+
+items:[
+
+{
+q:"Are you in the US?",
+a:"No, I am not."
+},
+  
+{
+q:"Do you live in Brazil?",
+a:"Yes, I do."
+},
+  
+{
+q:"Do you like blue?",
+a:"Yes, I do."
+},
+
+{
+q:"Are you married?",
+a:"Yes, I am."
+},
+
+{
+q:"Is she your sister?",
+a:"Yes, she is."
+}
+
+]
+},
+
+{
+title:"Negative Form",
+instruction:"Transforme em negativa.",
+
+items:[
+
+{
+q:"He is home.",
+a:"He isn't home."
+},
+
+{
+q:"She is home.",
+a:"She isn't home."
+},
+
+{
+q:"I am home.",
+a:"I am not home."
+},
+
+{
+q:"We are family.",
+a:"We are not family."
+},
+
+{
+q:"They are home.",
+a:"They aren't home."
+}
+
+]
+}
+
+],
+    vocabulary: [
+      { word:"favorite color", translation:"cor favorita", phonetic:"/feivrit kâlor/" },
+
+{ word:"blue", translation:"azul", phonetic:"/blu/" },
+
+{ word:"sister", translation:"irmã", phonetic:"/sister/" },
+
+{ word:"family", translation:"família", phonetic:"/fémili/" },
+
+{ word:"friend", translation:"amigo", phonetic:"/frend/" },
+
+{ word:"good", translation:"bom", phonetic:"/gud/" },
+
+{ word:"bad", translation:"ruim", phonetic:"/béd/" },
+
+{ word:"person", translation:"pessoa", phonetic:"/pârson/" },
+
+{ word:"married", translation:"casado(a)", phonetic:"/mérid/" },
+
+{ word:"bottle", translation:"garrafa", phonetic:"/bótol/" },
+
+{ word:"cup", translation:"copo", phonetic:"/cap/" },
+
+{ word:"water", translation:"água", phonetic:"/uóter/" },
+
+{ word:"coke", translation:"coca-cola", phonetic:"/couk/" },
+
+{ word:"but", translation:"mas", phonetic:"/bat/" },
+
+{ word:"Are you married?", translation:"Você é casada?", phonetic:"/ar yu mérid/" },
+
+{ word:"Is she your sister?", translation:"Ela é sua irmã?", phonetic:"/iz shi yor sister/" },
+
+{ word:"Do you like blue?", translation:"Você gosta de azul?", phonetic:"/du yu laik blu/" },
+
+{ word:"Can I have a bottle of water?", translation:"Posso pedir uma garrafa de água?", phonetic:"/ken ai rév a bótol óv uóter/" },
+
+{ word:"Can I have a coke?", translation:"Posso pedir uma coca?", phonetic:"/ken ai rév a couk/" },
+
+{ word:"We are not family", translation:"Nós não somos família", phonetic:"/wi ar nat fémili/" }
+
+    ]
+    
   }
 ];
 
@@ -248,6 +387,14 @@ const EXTRA_EXERCISES = [
     description: "Lista de exercício de To Be",
     url: "https://yvenglish.github.io/pamela2/"
   },
+   {
+    week: 4,
+    title: "Questions + Negatives + Conjugação",
+    tag: 
+      "To Be",
+    description: "Lista de exercício de conjugação",
+    url: "https://yvenglish.github.io/pamela_conj/"
+  }
 
   
 ];
