@@ -12,38 +12,312 @@ const THREE_DAYS_MS = 3 * 24 * 60 * 60 * 1000;
 const PLAN = document.body.getAttribute("data-plan") || "Foundation";
 
 const DAILY_LIST = [
-  {
-    label: "To Be + Rotina",
-    text: "Pamela is Brazilian and she is learning English. In the morning, she wakes up, brushes her teeth, eats breakfast and goes to work. She is busy, but she is happy because she is practicing every day.",
-    questions: [
-      { question: "Is Pamela Brazilian?", options: [{letter:"a",text:"Yes, she is"},{letter:"b",text:"No, she isn't"},{letter:"c",text:"Yes, she does"}], answer:"a" },
-      { question: "What does Pamela do in the morning?", options: [{letter:"a",text:"She wakes up and brushes her teeth"},{letter:"b",text:"She goes to school"},{letter:"c",text:"She drinks soda"}], answer:"a" },
-      { question: "Is Pamela busy?", options: [{letter:"a",text:"Yes, she is"},{letter:"b",text:"No, she isn't"},{letter:"c",text:"No, she doesn't"}], answer:"a" },
-      { question: "Why is she happy?", options: [{letter:"a",text:"Because she is practicing every day"},{letter:"b",text:"Because she is sleeping"},{letter:"c",text:"Because she doesn't work"}], answer:"a" }
-    ]
-  },
-  {
-    label: "Do / Does",
-    text: "Marina is at the airport. She talks to Oliver. Oliver drinks coffee every morning. Marina likes coffee too. She doesn't drink soda in the morning. They talk about work and daily routines.",
-    questions: [
-      { question: "Where is Marina?", options: [{letter:"a",text:"At the airport"},{letter:"b",text:"At school"},{letter:"c",text:"At home"}], answer:"a" },
-      { question: "Does Oliver drink coffee?", options: [{letter:"a",text:"Yes, he does"},{letter:"b",text:"No, he doesn't"},{letter:"c",text:"Yes, he is"}], answer:"a" },
-      { question: "Does Marina drink soda in the morning?", options: [{letter:"a",text:"Yes, she does"},{letter:"b",text:"No, she doesn't"},{letter:"c",text:"No, she isn't"}], answer:"b" },
-      { question: "What do they talk about?", options: [{letter:"a",text:"Work and daily routines"},{letter:"b",text:"School only"},{letter:"c",text:"Music"}], answer:"a" }
-    ]
-  },
-  {
-    label: "Pedro's Diary",
-    text: "Pedro is three years old. This week he is playing outside, eating cookies and staying with Pamela. Pamela is writing a small diary in English about Pedro. She is practicing simple sentences every week.",
-    questions: [
-      { question: "How old is Pedro?", options: [{letter:"a",text:"He is three"},{letter:"b",text:"He is thirteen"},{letter:"c",text:"He is thirty"}], answer:"a" },
-      { question: "What is Pamela writing?", options: [{letter:"a",text:"A small diary in English"},{letter:"b",text:"A long book"},{letter:"c",text:"A movie script"}], answer:"a" },
-      { question: "Is Pedro playing outside?", options: [{letter:"a",text:"Yes, he is"},{letter:"b",text:"No, he isn't"},{letter:"c",text:"Yes, he does"}], answer:"a" },
-      { question: "Why is Pamela writing the diary?", options: [{letter:"a",text:"To practice simple English every week"},{letter:"b",text:"To stop studying"},{letter:"c",text:"To work at school"}], answer:"a" }
-    ]
-  }
+
+{
+  label: "Monday ✦ Family",
+  text: "Emma has a son. His name is Oliver. She has a husband too. His name is Michael. They are a happy family. Emma likes spending time with Oliver and helping him learn new things every day.",
+  questions: [
+    {
+      question: "Does Emma have a son?",
+      options: [
+        {letter:"a",text:"Yes, she does"},
+        {letter:"b",text:"No, she doesn't"},
+        {letter:"c",text:"Yes, she is"}
+      ],
+      answer:"a"
+    },
+    {
+      question: "What is her son's name?",
+      options: [
+        {letter:"a",text:"Michael"},
+        {letter:"b",text:"Oliver"},
+        {letter:"c",text:"Daniel"}
+      ],
+      answer:"b"
+    },
+    {
+      question: "Is Emma married?",
+      options: [
+        {letter:"a",text:"Yes, she is"},
+        {letter:"b",text:"No, she isn't"},
+        {letter:"c",text:"Yes, she does"}
+      ],
+      answer:"a"
+    },
+    {
+      question: "Are they a family?",
+      options: [
+        {letter:"a",text:"Yes, they are"},
+        {letter:"b",text:"No, they aren't"},
+        {letter:"c",text:"No, they don't"}
+      ],
+      answer:"a"
+    }
+  ]
+},
+
+{
+  label: "Tuesday ✦ Favorite Colors",
+  text: "Emma likes blue. Oliver likes green. Michael likes black. They all have different favorite colors, but they enjoy talking about them.",
+  questions: [
+    {
+      question: "Does Emma like blue?",
+      options: [
+        {letter:"a",text:"Yes, she does"},
+        {letter:"b",text:"No, she doesn't"},
+        {letter:"c",text:"Yes, she is"}
+      ],
+      answer:"a"
+    },
+    {
+      question: "What color does Oliver like?",
+      options: [
+        {letter:"a",text:"Blue"},
+        {letter:"b",text:"Green"},
+        {letter:"c",text:"Black"}
+      ],
+      answer:"b"
+    },
+    {
+      question: "Does Michael like black?",
+      options: [
+        {letter:"a",text:"Yes, he does"},
+        {letter:"b",text:"No, he doesn't"},
+        {letter:"c",text:"Yes, he is"}
+      ],
+      answer:"a"
+    },
+    {
+      question: "Do they have the same favorite color?",
+      options: [
+        {letter:"a",text:"Yes"},
+        {letter:"b",text:"No"},
+        {letter:"c",text:"Sometimes"}
+      ],
+      answer:"b"
+    }
+  ]
+},
+
+{
+  label: "Wednesday ✦ At Home",
+  text: "Oliver is home. Emma is home too. Michael is not home because he is working. Oliver is playing while Emma studies English.",
+  questions: [
+    {
+      question: "Is Oliver home?",
+      options: [
+        {letter:"a",text:"Yes, he is"},
+        {letter:"b",text:"No, he isn't"},
+        {letter:"c",text:"Yes, he does"}
+      ],
+      answer:"a"
+    },
+    {
+      question: "Is Emma home?",
+      options: [
+        {letter:"a",text:"Yes, she is"},
+        {letter:"b",text:"No, she isn't"},
+        {letter:"c",text:"No, she doesn't"}
+      ],
+      answer:"a"
+    },
+    {
+      question: "Is Michael home?",
+      options: [
+        {letter:"a",text:"Yes, he is"},
+        {letter:"b",text:"No, he isn't"},
+        {letter:"c",text:"Yes, he does"}
+      ],
+      answer:"b"
+    },
+    {
+      question: "What is Oliver doing?",
+      options: [
+        {letter:"a",text:"Sleeping"},
+        {letter:"b",text:"Working"},
+        {letter:"c",text:"Playing"}
+      ],
+      answer:"c"
+    }
+  ]
+},
+
+{
+  label: "Thursday ✦ Friends",
+  text: "Lucy is a good friend to Emma. Daniel is a good friend too. They like spending time together and talking about their families.",
+  questions: [
+    {
+      question: "Is Lucy a good friend?",
+      options: [
+        {letter:"a",text:"Yes, she is"},
+        {letter:"b",text:"No, she isn't"},
+        {letter:"c",text:"Yes, she does"}
+      ],
+      answer:"a"
+    },
+    {
+      question: "Is Daniel a friend too?",
+      options: [
+        {letter:"a",text:"Yes"},
+        {letter:"b",text:"No"},
+        {letter:"c",text:"Maybe"}
+      ],
+      answer:"a"
+    },
+    {
+      question: "Do they like spending time together?",
+      options: [
+        {letter:"a",text:"Yes, they do"},
+        {letter:"b",text:"No, they don't"},
+        {letter:"c",text:"Yes, they are"}
+      ],
+      answer:"a"
+    },
+    {
+      question: "What do they talk about?",
+      options: [
+        {letter:"a",text:"Cars"},
+        {letter:"b",text:"Their families"},
+        {letter:"c",text:"School"}
+      ],
+      answer:"b"
+    }
+  ]
+},
+
+{
+  label: "Friday ✦ Restaurant",
+  text: "Emma is thirsty. She goes to a restaurant and says: 'Can I have a bottle of water?' The waiter smiles and says: 'Of course.'",
+  questions: [
+    {
+      question: "Is Emma thirsty?",
+      options: [
+        {letter:"a",text:"Yes, she is"},
+        {letter:"b",text:"No, she isn't"},
+        {letter:"c",text:"Yes, she does"}
+      ],
+      answer:"a"
+    },
+    {
+      question: "What does Emma want?",
+      options: [
+        {letter:"a",text:"A Coke"},
+        {letter:"b",text:"A bottle of water"},
+        {letter:"c",text:"Coffee"}
+      ],
+      answer:"b"
+    },
+    {
+      question: "Who talks to Emma?",
+      options: [
+        {letter:"a",text:"Oliver"},
+        {letter:"b",text:"Michael"},
+        {letter:"c",text:"The waiter"}
+      ],
+      answer:"c"
+    },
+    {
+      question: "Can Emma have water?",
+      options: [
+        {letter:"a",text:"Yes"},
+        {letter:"b",text:"No"},
+        {letter:"c",text:"Maybe"}
+      ],
+      answer:"a"
+    }
+  ]
+},
+
+{
+  label: "Saturday ✦ In The US",
+  text: "Lucy is in the US. Emma is in the US too. Oliver is with Emma. They are visiting family and enjoying the weekend together.",
+  questions: [
+    {
+      question: "Is Lucy in the US?",
+      options: [
+        {letter:"a",text:"Yes, she is"},
+        {letter:"b",text:"No, she isn't"},
+        {letter:"c",text:"Yes, she does"}
+      ],
+      answer:"a"
+    },
+    {
+      question: "Is Emma in the US?",
+      options: [
+        {letter:"a",text:"Yes"},
+        {letter:"b",text:"No"},
+        {letter:"c",text:"Maybe"}
+      ],
+      answer:"a"
+    },
+    {
+      question: "Who is with Emma?",
+      options: [
+        {letter:"a",text:"Michael"},
+        {letter:"b",text:"Oliver"},
+        {letter:"c",text:"Daniel"}
+      ],
+      answer:"b"
+    },
+    {
+      question: "What are they doing?",
+      options: [
+        {letter:"a",text:"Working"},
+        {letter:"b",text:"Studying"},
+        {letter:"c",text:"Visiting family"}
+      ],
+      answer:"c"
+    }
+  ]
+},
+
+{
+  label: "Sunday ✦ About Emma",
+  text: "Emma likes blue. She has a son. She is married. She studies English every week and she can speak a little English.",
+  questions: [
+    {
+      question: "Does Emma like blue?",
+      options: [
+        {letter:"a",text:"Yes, she does"},
+        {letter:"b",text:"No, she doesn't"},
+        {letter:"c",text:"Yes, she is"}
+      ],
+      answer:"a"
+    },
+    {
+      question: "Does she have a son?",
+      options: [
+        {letter:"a",text:"Yes, she does"},
+        {letter:"b",text:"No, she doesn't"},
+        {letter:"c",text:"Yes, she is"}
+      ],
+      answer:"a"
+    },
+    {
+      question: "Is she married?",
+      options: [
+        {letter:"a",text:"Yes, she is"},
+        {letter:"b",text:"No, she isn't"},
+        {letter:"c",text:"Yes, she does"}
+      ],
+      answer:"a"
+    },
+    {
+      question: "Can Emma speak a little English?",
+      options: [
+        {letter:"a",text:"Yes, she can"},
+        {letter:"b",text:"No, she can't"},
+        {letter:"c",text:"Yes, she does"}
+      ],
+      answer:"a"
+    }
+  ]
+}
+
 ];
-const DAILY = DAILY_LIST[Math.floor(Date.now() / 86400000) % DAILY_LIST.length];
+
+const DAILY = DAILY_LIST[(new Date().getDay() + 6) % 7];
+
 
 const WEEKS = [
   {
