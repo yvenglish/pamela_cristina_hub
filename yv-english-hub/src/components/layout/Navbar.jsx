@@ -77,24 +77,12 @@ export default function Navbar() {
   const isInicio = location.pathname === '/';
   
   return (
-    <nav style={{
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      padding: '0 40px',
-      height: '80px',
-      background: '#0d071a',
-      borderBottom: '1px solid rgba(255,255,255,0.05)',
-      position: 'sticky',
-      top: 0,
-      zIndex: 1000,
-      fontFamily: '"Inter", sans-serif'
-    }}>
+    <nav className="navbar">
       {/* Esquerda: Logo e Links */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 40, height: '100%' }}>
+      <div className="nav-left">
         <img src="/logo.png" alt="YV English" style={{ height: 40, cursor: 'pointer' }} onClick={() => navigate('/')} />
         
-        <div style={{ display: 'flex', gap: 30, height: '100%' }}>
+        <div className="nav-links">
           <NavLink 
             to="/"
             style={({ isActive }) => ({
@@ -192,27 +180,31 @@ export default function Navbar() {
       </div>
 
       {/* Direita: Busca e Perfil */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 25 }}>
+      <div className="nav-actions-container">
         
         {/* Barra de Busca Funcional */}
         <div style={{ position: 'relative' }} ref={searchRef}>
           <span style={{ position: 'absolute', left: 15, top: '50%', transform: 'translateY(-50%)', color: 'rgba(255,255,255,0.4)' }}>🔍</span>
           <input 
             type="text" 
-            placeholder="Pesquisar aulas, materiais..." 
+            placeholder="Buscar..." 
             value={searchQuery}
             onChange={(e) => { setSearchQuery(e.target.value); setIsDropdownOpen(true); }}
             onFocus={handleSearchFocus}
+            className="search-input"
             style={{
-              background: 'rgba(255,255,255,0.05)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              borderRadius: 99,
-              padding: '10px 15px 10px 45px',
+              background: 'rgba(255,255,255,0.06)',
+              border: '1px solid rgba(255,255,255,0.15)',
+              borderRadius: 40,
+              padding: '10px 15px 10px 42px',
               color: '#fff',
-              width: 250,
+              fontSize: '0.9rem',
+              width: 240,
               outline: 'none',
-              fontSize: '0.9rem'
+              transition: 'all 0.2s',
             }}
+            onFocusCapture={e => e.target.style.background = 'rgba(255,255,255,0.1)'}
+            onBlurCapture={e => e.target.style.background = 'rgba(255,255,255,0.06)'}
           />
           
           {isDropdownOpen && searchQuery.trim() && (
@@ -260,7 +252,7 @@ export default function Navbar() {
         </div>
 
         {/* Círculo de Progresso */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'rgba(255,255,255,0.05)', padding: '6px 16px 6px 6px', borderRadius: 99, border: '1px solid rgba(200, 136, 58, 0.3)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'rgba(255,255,255,0.05)', padding: '6px 16px 6px 6px', borderRadius: 99, border: '1px solid rgba(200, 136, 58, 0.3)' }} className="hide-on-mobile">
           <div style={{ position: 'relative', width: 40, height: 40, display: 'grid', placeItems: 'center' }}>
             <svg viewBox="0 0 36 36" style={{ width: 40, height: 40, transform: 'rotate(-90deg)' }}>
               <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="3" />
@@ -275,7 +267,7 @@ export default function Navbar() {
         </div>
 
         {/* Dropdown de Usuário */}
-        <div style={{ position: 'relative' }}>
+        <div style={{ position: 'relative' }} className="hide-on-mobile">
           <div 
             onClick={() => setShowMenu(!showMenu)}
             style={{ display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer', padding: '6px 12px', borderRadius: 99, transition: '0.2s', background: showMenu ? 'rgba(255,255,255,0.1)' : 'transparent' }}
@@ -321,6 +313,28 @@ export default function Navbar() {
             </div>
           )}
         </div>
+
+        <button className="hamburger" onClick={() => setShowMenu(!showMenu)}>
+          ☰
+        </button>
+      </div>
+
+      {/* Mobile Menu */}
+      <div className={`mobile-menu ${showMenu ? 'open' : ''}`}>
+        <NavLink to="/" onClick={() => setShowMenu(false)}>Início</NavLink>
+        <a href="/#weeksSection" onClick={(e) => {
+          if (location.pathname !== '/') {
+            e.preventDefault();
+            navigate('/#weeksSection');
+          }
+          setShowMenu(false);
+        }}>Semanas</a>
+        <NavLink to="/flashcards" onClick={() => setShowMenu(false)}>Flashcards</NavLink>
+        <NavLink to="/library" onClick={() => setShowMenu(false)}>Biblioteca</NavLink>
+        <div style={{ height: 1, background: 'rgba(255,255,255,0.1)', margin: '10px 0' }} />
+        <button onClick={() => { navigate('/account'); setShowMenu(false); }} style={{ background: 'transparent', color: '#fff', border: 'none', textAlign: 'left', fontSize: '1.1rem', fontWeight: 500 }}>Minha Conta</button>
+        <button onClick={() => { toggleTheme(); setShowMenu(false); }} style={{ background: 'transparent', color: '#fff', border: 'none', textAlign: 'left', fontSize: '1.1rem', fontWeight: 500 }}>{theme === 'dark' ? '☀️ Modo Claro' : '🌙 Modo Escuro'}</button>
+        <button onClick={() => { handleLogout(); setShowMenu(false); }} style={{ background: 'transparent', color: 'var(--amber)', border: 'none', textAlign: 'left', fontSize: '1.1rem', fontWeight: 500 }}>Sair</button>
       </div>
     </nav>
   );
