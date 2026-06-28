@@ -29,6 +29,22 @@ export function AuthProvider({ children }) {
             return;
           }
 
+          // Streak reset logic
+          const today = new Date();
+          today.setHours(0,0,0,0);
+          const todayStr = today.toISOString().split('T')[0];
+          
+          const yesterday = new Date(today);
+          yesterday.setDate(yesterday.getDate() - 1);
+          const yesterdayStr = yesterday.toISOString().split('T')[0];
+
+          if (data.currentStreak > 0 && data.lastStreakDate !== todayStr && data.lastStreakDate !== yesterdayStr) {
+            data.currentStreak = 0;
+            // Also reset words for today just in case
+            data.wordsStudiedToday = 0;
+            await setDoc(docRef, { currentStreak: 0, wordsStudiedToday: 0 }, { merge: true });
+          }
+
           setUserData(data);
           
           // Update lastLogin tracking
@@ -111,13 +127,37 @@ export function AuthProvider({ children }) {
     return goalJustReached;
   };
 
+  const toggleLibraryFavorite = async (episodeId) => {
+    if (!currentUser || !userData) return;
+    const currentFavs = userData.libraryFavorites || [];
+    const newFavs = currentFavs.includes(episodeId) 
+      ? currentFavs.filter(id => id !== episodeId)
+      : [...currentFavs, episodeId];
+    
+    await setDoc(doc(db, 'users', currentUser.uid), { libraryFavorites: newFavs }, { merge: true });
+    setUserData({ ...userData, libraryFavorites: newFavs });
+  };
+
+  const toggleLibraryProgress = async (episodeId) => {
+    if (!currentUser || !userData) return;
+    const currentProg = userData.libraryProgress || [];
+    const newProg = currentProg.includes(episodeId)
+      ? currentProg.filter(id => id !== episodeId)
+      : [...currentProg, episodeId];
+    
+    await setDoc(doc(db, 'users', currentUser.uid), { libraryProgress: newProg }, { merge: true });
+    setUserData({ ...userData, libraryProgress: newProg });
+  };
+
   const value = {
     currentUser,
     userData,
     login,
     logout,
     resetPassword,
-    recordStudy
+    recordStudy,
+    toggleLibraryFavorite,
+    toggleLibraryProgress
   };
 
   return (

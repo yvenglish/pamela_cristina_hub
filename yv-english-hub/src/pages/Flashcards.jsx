@@ -23,12 +23,17 @@ export default function Flashcards() {
   const [selectedMode, setSelectedMode] = useState('');
 
   const [showGoalModal, setShowGoalModal] = useState(false);
+  const [showCompleteModal, setShowCompleteModal] = useState(null); // stores the completion message
 
   useEffect(() => {
     if (currentUser) {
+      if (userData?.plan === 'Foundation') {
+        navigate('/');
+        return;
+      }
       loadData();
     }
-  }, [currentUser]);
+  }, [currentUser, userData, navigate]);
 
   const loadData = async () => {
     setLoading(true);
@@ -98,58 +103,31 @@ export default function Flashcards() {
     setSelectedMode(mode);
     setView('playing');
   };
-
   const handleFinish = async (result) => {
     let msg = 'Revisão Concluída!';
+    let isGoalReached = false;
+
     if (result) {
-      msg = "Revisao Concluida! Voce acertou " + result.score + " de " + result.total + ".";
+      msg = "Você acertou " + result.score + " de " + result.total + ".";
     }
 
     if (userData) {
-      const goalReached = await recordStudy(selectedDeck.words.length);
-      if (goalReached) {
-        setShowGoalModal(true);
-      } else {
-        alert(msg);
-      }
-    } else {
-      alert(msg);
+      isGoalReached = await recordStudy(selectedDeck.words.length);
     }
 
     setView('list');
     setSelectedDeck(null);
     setSelectedMode('');
+
+    if (isGoalReached) {
+      setShowGoalModal(true);
+    } else {
+      setShowCompleteModal(msg);
+    }
   };
 
   return (
     <div className="site-shell unlocked" style={{ background: 'var(--bg)', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <header className="hero" style={{ paddingBottom: 20, flexShrink: 0 }}>
-        <div className="hero-inner" style={{ paddingBottom: 20 }}>
-          <nav className="hero-nav">
-            <button 
-              onClick={() => {
-                if (view === 'playing') setView('mode_select');
-                else if (view === 'mode_select') setView('list');
-                else navigate('/');
-              }} 
-              style={{ background: 'transparent', border: '1px solid var(--line)', color: '#fff', padding: '8px 16px', borderRadius: 99, cursor: 'pointer' }}
-            >
-              ← Voltar
-            </button>
-            <div style={{ display: 'flex', gap: 15, alignItems: 'center' }}>
-              {userData && userData.currentStreak > 0 && (
-                <div style={{ background: 'rgba(255, 90, 30, 0.15)', border: '1px solid rgba(255, 90, 30, 0.3)', color: '#FF5A1E', padding: '4px 12px', borderRadius: 99, display: 'flex', alignItems: 'center', gap: 6, fontWeight: 'bold' }}>
-                  <span>🔥</span>
-                  <span>{userData.currentStreak} dias</span>
-                </div>
-              )}
-              <div className="student-badge">
-                <span>YV Flashcards</span>
-              </div>
-            </div>
-          </nav>
-        </div>
-      </header>
 
       <main style={{ flex: 1, padding: 20, maxWidth: 1040, margin: '0 auto', width: '100%' }}>
         {showGoalModal && (
@@ -158,8 +136,27 @@ export default function Flashcards() {
               <span style={{ fontSize: '5rem', display: 'block', margin: '0 auto 15px', animation: 'bounce 1s infinite' }}>🔥</span>
               <h2 style={{ fontFamily: '"Playfair Display", serif', fontSize: '2.5rem', color: '#FF5A1E', marginBottom: 15, lineHeight: 1.1 }}>Meta Atingida!</h2>
               <p style={{ color: 'var(--text)', fontSize: '1.1rem', lineHeight: 1.6, marginBottom: 10 }}>Parabéns! Você revisou suas palavras de hoje e aumentou sua ofensiva.</p>
-              <p style={{ color: 'var(--muted)', fontSize: '0.95rem', marginBottom: 30 }}>Você está em um streak de <strong>{userData.currentStreak} dias</strong>. Continue assim!</p>
-              <button onClick={() => setShowGoalModal(false)} style={{ padding: '16px 28px', background: '#FF5A1E', color: '#fff', border: 'none', borderRadius: 999, fontWeight: 800, fontSize: '1.1rem', width: '100%', cursor: 'pointer', transition: '0.2s' }}>Incrível!</button>
+              <p style={{ color: 'var(--muted)', fontSize: '0.95rem', marginBottom: 30 }}>Você está em um streak de <strong>{userData?.currentStreak || 0} dias</strong>. Continue assim!</p>
+              
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                <button onClick={() => setShowGoalModal(false)} style={{ padding: '16px 28px', background: '#FF5A1E', color: '#fff', border: 'none', borderRadius: 999, fontWeight: 800, fontSize: '1.1rem', width: '100%', cursor: 'pointer', transition: '0.2s' }}>Continuar Estudando</button>
+                <button onClick={() => { setShowGoalModal(false); navigate('/'); }} style={{ padding: '16px 28px', background: 'transparent', border: '1px solid var(--line)', color: 'var(--text)', borderRadius: 999, fontWeight: 800, fontSize: '1.1rem', width: '100%', cursor: 'pointer', transition: '0.2s' }}>Voltar para a Home</button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {showCompleteModal && (
+          <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(20, 10, 20, 0.85)', backdropFilter: 'blur(12px)', zIndex: 2000, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 20 }}>
+            <div style={{ background: 'var(--paper)', width: '100%', maxWidth: 450, borderRadius: 28, overflow: 'hidden', position: 'relative', border: '1px solid var(--plum)', textAlign: 'center', padding: '50px 40px', boxShadow: '0 20px 60px rgba(138, 124, 255, 0.2)' }}>
+              <span style={{ fontSize: '5rem', display: 'block', margin: '0 auto 15px', animation: 'bounce 1s infinite' }}>🎉</span>
+              <h2 style={{ fontFamily: '"Playfair Display", serif', fontSize: '2.5rem', color: 'var(--plum)', marginBottom: 15, lineHeight: 1.1 }}>Revisão Concluída!</h2>
+              <p style={{ color: 'var(--text)', fontSize: '1.1rem', lineHeight: 1.6, marginBottom: 30 }}>{showCompleteModal}</p>
+              
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                <button onClick={() => setShowCompleteModal(null)} style={{ padding: '16px 28px', background: 'var(--plum)', color: '#fff', border: 'none', borderRadius: 999, fontWeight: 800, fontSize: '1.1rem', width: '100%', cursor: 'pointer', transition: '0.2s' }}>Continuar Estudando</button>
+                <button onClick={() => { setShowCompleteModal(null); navigate('/'); }} style={{ padding: '16px 28px', background: 'transparent', border: '1px solid var(--line)', color: 'var(--text)', borderRadius: 999, fontWeight: 800, fontSize: '1.1rem', width: '100%', cursor: 'pointer', transition: '0.2s' }}>Voltar para a Home</button>
+              </div>
             </div>
           </div>
         )}
@@ -220,25 +217,25 @@ export default function Flashcards() {
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 20 }}>
                   <button onClick={() => startGame('classic')} style={{ background: 'var(--paper)', padding: 30, borderRadius: 24, border: '1px solid var(--line)', cursor: 'pointer', transition: '0.2s', textAlign: 'left' }} onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--plum)'} onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--line)'}>
                     <span style={{ fontSize: '2.5rem', display: 'block', marginBottom: 15 }}>🃏</span>
-                    <h3 style={{ margin: '0 0 5px' }}>Flashcard Clássico</h3>
+                    <h3 style={{ margin: '0 0 5px', color: 'var(--text)' }}>Flashcard Clássico</h3>
                     <p style={{ margin: 0, color: 'var(--muted)', fontSize: '0.85rem' }}>Vire as cartas e autoavalie sua memória.</p>
                   </button>
                   
                   <button onClick={() => startGame('multiple')} style={{ background: 'var(--paper)', padding: 30, borderRadius: 24, border: '1px solid var(--line)', cursor: 'pointer', transition: '0.2s', textAlign: 'left' }} onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--plum)'} onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--line)'}>
                     <span style={{ fontSize: '2.5rem', display: 'block', marginBottom: 15 }}>🎯</span>
-                    <h3 style={{ margin: '0 0 5px' }}>Múltiplas Respostas</h3>
+                    <h3 style={{ margin: '0 0 5px', color: 'var(--text)' }}>Múltiplas Respostas</h3>
                     <p style={{ margin: 0, color: 'var(--muted)', fontSize: '0.85rem' }}>Encontre a tradução correta entre opções aleatórias.</p>
                   </button>
                   
                   <button onClick={() => startGame('match')} style={{ background: 'var(--paper)', padding: 30, borderRadius: 24, border: '1px solid var(--line)', cursor: 'pointer', transition: '0.2s', textAlign: 'left' }} onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--plum)'} onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--line)'}>
                     <span style={{ fontSize: '2.5rem', display: 'block', marginBottom: 15 }}>🧩</span>
-                    <h3 style={{ margin: '0 0 5px' }}>Combinar Cartões</h3>
+                    <h3 style={{ margin: '0 0 5px', color: 'var(--text)' }}>Combinar Cartões</h3>
                     <p style={{ margin: 0, color: 'var(--muted)', fontSize: '0.85rem' }}>Conecte a palavra em inglês com a sua tradução.</p>
                   </button>
                   
                   <button onClick={() => startGame('written')} style={{ background: 'var(--paper)', padding: 30, borderRadius: 24, border: '1px solid var(--line)', cursor: 'pointer', transition: '0.2s', textAlign: 'left' }} onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--plum)'} onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--line)'}>
                     <span style={{ fontSize: '2.5rem', display: 'block', marginBottom: 15 }}>✍️</span>
-                    <h3 style={{ margin: '0 0 5px' }}>Revisão Escrita</h3>
+                    <h3 style={{ margin: '0 0 5px', color: 'var(--text)' }}>Revisão Escrita</h3>
                     <p style={{ margin: 0, color: 'var(--muted)', fontSize: '0.85rem' }}>Pratique o spelling digitando a palavra em inglês.</p>
                   </button>
                 </div>

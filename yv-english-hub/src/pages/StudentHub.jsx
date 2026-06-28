@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { db } from '../config/firebase';
 import { collection, query, where, getDocs, doc, updateDoc, getDoc, addDoc } from 'firebase/firestore';
 
@@ -9,6 +9,7 @@ export default function StudentHub() {
   const { currentUser, userData, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
+  const location = useLocation();
   
   const [weeks, setWeeks] = useState([]);
   const [selectedWeek, setSelectedWeek] = useState(null);
@@ -26,6 +27,18 @@ export default function StudentHub() {
       fetchDailyAssignment();
     }
   }, [currentUser, userData]);
+
+  // Read location state for global search selection
+  useEffect(() => {
+    if (location.state?.openWeekId && weeks.length > 0) {
+      const targetWeek = weeks.find(w => w.id === location.state.openWeekId);
+      if (targetWeek) {
+        setSelectedWeek(targetWeek);
+        // Clean up state so a refresh doesn't reopen it
+        navigate('.', { replace: true, state: {} });
+      }
+    }
+  }, [location.state, weeks, navigate]);
 
   const fetchWeeks = async () => {
     try {
@@ -157,30 +170,8 @@ export default function StudentHub() {
 
   return (
     <div className="site-shell unlocked">
-      <header className="hero">
+      <header className="hero" style={{ paddingTop: 40 }}>
         <div className="hero-inner">
-          <nav className="hero-nav">
-            <img src="/logo.png" alt="YV English" className="logo" />
-            <div className="nav-actions">
-              <button onClick={toggleTheme} style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.16)', color: '#fff', borderRadius: '50%', width: 36, height: 36, cursor: 'pointer' }} title="Alternar Tema">
-                {theme === 'dark' ? '☀️' : '🌙'}
-              </button>
-              <div style={{ display: 'flex', gap: 15, alignItems: 'center' }}>
-                {userData && userData.currentStreak > 0 && (
-                  <div style={{ background: 'rgba(255, 90, 30, 0.15)', border: '1px solid rgba(255, 90, 30, 0.3)', color: '#FF5A1E', padding: '4px 12px', borderRadius: 99, display: 'flex', alignItems: 'center', gap: 6, fontWeight: 'bold' }}>
-                    <span>🔥</span>
-                    <span>{userData.currentStreak} dias</span>
-                  </div>
-                )}
-                <div className="student-badge">
-                  <span className="badge-dot"></span>
-                  <span>{planName}</span>
-                </div>
-              </div>
-              <button className="logout-btn" onClick={handleLogout}>Sair</button>
-            </div>
-          </nav>
-
           <div className="hero-grid">
             <div className="hero-body">
               <p className="eyebrow">Sua área pessoal</p>
@@ -231,7 +222,7 @@ export default function StudentHub() {
             <small>Leitura, áudio e interpretação</small>
           </button>
 
-          <button className="feature-card" onClick={() => window.open('https://yv-input-library.onrender.com/', '_blank')}>
+          <button className="feature-card" onClick={() => navigate('/library')}>
             <span className="feature-icon" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
               <span>🎧</span>
               <span style={{ fontSize: '0.65rem', background: 'rgba(138, 124, 255, 0.15)', padding: '2px 8px', borderRadius: 99, color: 'var(--purple)', fontWeight: 800 }}>LIBRARY</span>
@@ -274,11 +265,13 @@ export default function StudentHub() {
 
       {showUpgradeModal && (
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(20, 10, 20, 0.85)', backdropFilter: 'blur(12px)', zIndex: 2000, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 20 }}>
-          <div style={{ background: 'var(--paper)', width: '100%', maxWidth: 450, borderRadius: 28, overflow: 'hidden', position: 'relative', border: '1px solid var(--line)', textAlign: 'center', padding: 40 }}>
+          <div style={{ background: 'var(--paper)', width: '100%', maxWidth: 450, borderRadius: 28, overflow: 'hidden', position: 'relative', border: '1px solid var(--plum)', textAlign: 'center', padding: 40 }}>
             <button onClick={() => setShowUpgradeModal(false)} style={{ position: 'absolute', top: 20, right: 20, background: 'var(--cream)', border: '1px solid var(--line)', color: 'var(--text)', width: 36, height: 36, borderRadius: '50%', cursor: 'pointer', display: 'grid', placeItems: 'center', fontWeight: 'bold' }}>✕</button>
             <span style={{ fontSize: '3.5rem', display: 'block', margin: '0 auto 15px' }}>🔒</span>
-            <h2 style={{ fontFamily: '"Playfair Display", serif', fontSize: '2.2rem', color: 'var(--plum)', marginBottom: 15, lineHeight: 1.1 }}>Acesso Exclusivo</h2>
-            <p style={{ color: 'var(--muted)', fontSize: '0.95rem', lineHeight: 1.6, marginBottom: 30 }}>Essa funcionalidade é exclusiva para os planos <strong>Fluency</strong> e <strong>Performance</strong>.</p>
+            <h2 style={{ fontFamily: '"Playfair Display", serif', fontSize: '2.2rem', color: 'var(--plum)', marginBottom: 15, lineHeight: 1.1 }}>Ops...</h2>
+            <p style={{ color: 'var(--text)', fontSize: '1rem', lineHeight: 1.6, marginBottom: 30 }}>
+              Este recurso incrível só faz parte do plano <strong>Fluency</strong> ou superior. Quer ter acesso? Fale com a teacher para fazer o upgrade e destravar todo o seu potencial agora mesmo!
+            </p>
             <button onClick={() => setShowUpgradeModal(false)} style={{ padding: '14px 28px', background: 'var(--plum)', color: '#fff', border: 'none', borderRadius: 999, fontWeight: 800, fontSize: '1rem', width: '100%', cursor: 'pointer' }}>Entendi</button>
           </div>
         </div>

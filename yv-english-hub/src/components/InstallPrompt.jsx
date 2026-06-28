@@ -3,16 +3,31 @@ import { useState, useEffect } from 'react';
 export default function InstallPrompt() {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [showBanner, setShowBanner] = useState(false);
+  const [isIOS, setIsIOS] = useState(false);
 
   useEffect(() => {
-    // Only show if user is likely on a mobile device (optional, but requested)
+    // Check if dismissed previously
+    if (localStorage.getItem('pwa_prompt_dismissed')) return;
+
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    
+    // Detect iOS
+    const isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    // Check if already installed
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+
+    if (isMobile && !isStandalone) {
+      if (isIOSDevice) {
+        setIsIOS(true);
+        setShowBanner(true);
+      }
+    }
     
     const handleBeforeInstallPrompt = (e) => {
       // Prevent the mini-infobar from appearing on mobile
       e.preventDefault();
       // Stash the event so it can be triggered later.
-      if (isMobile) {
+      if (isMobile && !isStandalone) {
         setDeferredPrompt(e);
         setShowBanner(true);
       }
@@ -45,6 +60,7 @@ export default function InstallPrompt() {
 
   const handleDismiss = () => {
     setShowBanner(false);
+    localStorage.setItem('pwa_prompt_dismissed', 'true');
   };
 
   if (!showBanner) return null;
@@ -72,12 +88,16 @@ export default function InstallPrompt() {
         <div style={{ width: 44, height: 44, background: 'rgba(255,255,255,0.1)', borderRadius: 12, display: 'grid', placeItems: 'center', fontWeight: 'bold', color: '#fff' }}>YV</div>
         <div style={{ flex: 1 }}>
           <h4 style={{ margin: 0, color: '#fff', fontSize: '0.95rem' }}>Baixar o App YV English</h4>
-          <p style={{ margin: 0, color: 'var(--muted)', fontSize: '0.8rem' }}>Instale para acessar mais rápido e offline.</p>
+          <p style={{ margin: 0, color: 'var(--muted)', fontSize: '0.8rem' }}>
+            {isIOS ? 'Toque em Compartilhar e depois "Adicionar à Tela de Início"' : 'Instale para acessar mais rápido e offline.'}
+          </p>
         </div>
       </div>
       <div style={{ display: 'flex', gap: 10 }}>
         <button onClick={handleDismiss} style={{ flex: 1, padding: '10px', borderRadius: 12, border: 'none', background: 'rgba(255,255,255,0.1)', color: '#fff', cursor: 'pointer' }}>Agora não</button>
-        <button onClick={handleInstallClick} style={{ flex: 1, padding: '10px', borderRadius: 12, border: 'none', background: 'var(--purple)', color: '#fff', fontWeight: 'bold', cursor: 'pointer' }}>Baixar App</button>
+        {!isIOS && (
+          <button onClick={handleInstallClick} style={{ flex: 1, padding: '10px', borderRadius: 12, border: 'none', background: 'var(--purple)', color: '#fff', fontWeight: 'bold', cursor: 'pointer' }}>Baixar App</button>
+        )}
       </div>
     </div>
   );

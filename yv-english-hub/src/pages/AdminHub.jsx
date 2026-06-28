@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../config/firebase';
 import { collection, getDocs, query, where, doc, updateDoc, addDoc, deleteDoc } from 'firebase/firestore';
+import LibraryAdminTab from '../components/admin/LibraryAdminTab';
 
 export default function AdminHub() {
   const { logout } = useAuth();
@@ -433,7 +434,7 @@ export default function AdminHub() {
         <header className="hero" style={{ paddingBottom: 20 }}>
           <div className="hero-inner" style={{ paddingBottom: 20 }}>
             <nav className="hero-nav">
-              <button onClick={() => setSelectedStudentProfile(null)} style={{ background: 'var(--cream)', border: '1px solid var(--line)', padding: '8px 16px', borderRadius: 99, cursor: 'pointer', fontWeight: 'bold' }}>
+              <button onClick={() => setSelectedStudentProfile(null)} style={{ background: 'var(--cream)', border: '1px solid var(--line)', color: 'var(--text)', padding: '8px 16px', borderRadius: 99, cursor: 'pointer', fontWeight: 'bold' }}>
                 ← Voltar ao Painel
               </button>
             </nav>
@@ -466,7 +467,7 @@ export default function AdminHub() {
             )}
             <div style={{ display: 'grid', gap: 10, marginTop: 15, maxHeight: 600, overflowY: 'auto' }}>
               {sAssigns.map(a => (
-                <div key={a.id} style={{ background: a.status === 'completed' ? '#EAF7F1' : 'var(--paper)', padding: 15, borderRadius: 12, border: '1px solid var(--line)' }}>
+                <div key={a.id} style={{ background: a.status === 'completed' ? '#EAF7F1' : 'var(--paper)', color: a.status === 'completed' ? '#1E293B' : 'var(--text)', padding: 15, borderRadius: 12, border: '1px solid var(--line)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 5 }}>
                     <strong>{new Date(a.scheduledDate + 'T00:00:00').toLocaleDateString('pt-BR')}</strong>
                     <span style={{ fontSize: '0.7rem', fontWeight: 'bold', color: a.status === 'completed' ? '#2D7158' : 'var(--amber)' }}>
@@ -514,9 +515,9 @@ export default function AdminHub() {
         )}
 
         <div style={{ display: 'flex', gap: 10, marginBottom: 30, borderBottom: '1px solid var(--line)', paddingBottom: 15, overflowX: 'auto' }}>
-          {['students', 'weeks', 'daily', 'vocabulary'].map(tab => (
+          {['students', 'weeks', 'daily', 'vocabulary', 'library'].map(tab => (
             <button key={tab} onClick={() => setActiveTab(tab)} style={{ padding: '10px 20px', whiteSpace: 'nowrap', borderRadius: 999, border: activeTab === tab ? 'none' : '1px solid var(--line)', background: activeTab === tab ? 'var(--plum)' : 'transparent', color: activeTab === tab ? '#fff' : 'var(--text)', cursor: 'pointer', fontWeight: 800, textTransform: 'capitalize' }}>
-              {tab === 'daily' ? 'Daily Content' : tab === 'students' ? 'Alunos' : tab === 'weeks' ? 'Semanas' : 'Vocabulário Global'}
+              {tab === 'daily' ? 'Daily Content' : tab === 'students' ? 'Alunos' : tab === 'weeks' ? 'Semanas' : tab === 'library' ? 'Biblioteca' : 'Vocabulário Global'}
             </button>
           ))}
         </div>
@@ -535,16 +536,20 @@ export default function AdminHub() {
               <div style={{ padding: 20, marginBottom: 20, background: 'var(--paper)', border: '1px solid var(--line)', borderRadius: 16 }}>
                 <h3>Editar Aluno</h3>
                 <div style={{ display: 'grid', gap: 15, marginTop: 15 }}>
-                  <input type="text" value={editingStudent.name} onChange={e => setEditingStudent({...editingStudent, name: e.target.value})} style={{ width: '100%', padding: '10px', borderRadius: 8, border: '1px solid var(--line)' }} />
-                  <select value={editingStudent.plan} onChange={e => setEditingStudent({...editingStudent, plan: e.target.value})} style={{ width: '100%', padding: '10px', borderRadius: 8, border: '1px solid var(--line)' }}>
+                  <input type="text" value={editingStudent.name} onChange={e => setEditingStudent({...editingStudent, name: e.target.value})} style={{ width: '100%', padding: '10px', borderRadius: 8, border: '1px solid var(--line)', background: 'var(--bg)', color: 'var(--text)' }} />
+                  <select value={editingStudent.plan} onChange={e => setEditingStudent({...editingStudent, plan: e.target.value})} style={{ width: '100%', padding: '10px', borderRadius: 8, border: '1px solid var(--line)', background: 'var(--bg)', color: 'var(--text)' }}>
                     <option value="Foundation">Foundation</option><option value="Fluency">Fluency</option><option value="Performance">Performance</option>
                   </select>
-                  <select value={editingStudent.active ? 'true' : 'false'} onChange={e => setEditingStudent({...editingStudent, active: e.target.value === 'true'})} style={{ width: '100%', padding: '10px', borderRadius: 8, border: '1px solid var(--line)' }}>
+                  <select value={editingStudent.active ? 'true' : 'false'} onChange={e => setEditingStudent({...editingStudent, active: e.target.value === 'true'})} style={{ width: '100%', padding: '10px', borderRadius: 8, border: '1px solid var(--line)', background: 'var(--bg)', color: 'var(--text)' }}>
                     <option value="true">Ativo</option><option value="false">Inativo</option>
                   </select>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+                    <label style={{ fontSize: '0.8rem', fontWeight: 'bold' }}>Dia de Vencimento da Mensalidade</label>
+                    <input type="number" min="1" max="31" placeholder="Ex: 5" value={editingStudent.dueDate || ''} onChange={e => setEditingStudent({...editingStudent, dueDate: e.target.value})} style={{ width: '100%', padding: '10px', borderRadius: 8, border: '1px solid var(--line)', background: 'var(--bg)', color: 'var(--text)' }} />
+                  </div>
                   <div style={{ display: 'flex', gap: 10 }}>
-                    <button onClick={async () => { await updateDoc(doc(db, 'users', editingStudent.id), { name: editingStudent.name, plan: editingStudent.plan, active: editingStudent.active }); setEditingStudent(null); fetchStudents(); }} style={{ padding: '10px 20px', background: 'var(--purple)', color: '#fff', border: 'none', borderRadius: 8, cursor: 'pointer', fontWeight: 'bold' }}>Salvar</button>
-                    <button onClick={() => setEditingStudent(null)} style={{ padding: '10px 20px', background: 'transparent', border: '1px solid var(--line)', borderRadius: 8, cursor: 'pointer' }}>Cancelar</button>
+                    <button onClick={async () => { await updateDoc(doc(db, 'users', editingStudent.id), { name: editingStudent.name, plan: editingStudent.plan, active: editingStudent.active, dueDate: editingStudent.dueDate || null }); setEditingStudent(null); fetchStudents(); }} style={{ padding: '10px 20px', background: 'var(--purple)', color: '#fff', border: 'none', borderRadius: 8, cursor: 'pointer', fontWeight: 'bold' }}>Salvar</button>
+                    <button onClick={() => setEditingStudent(null)} style={{ padding: '10px 20px', background: 'transparent', border: '1px solid var(--line)', color: 'var(--text)', borderRadius: 8, cursor: 'pointer' }}>Cancelar</button>
                   </div>
                 </div>
               </div>
@@ -560,7 +565,7 @@ export default function AdminHub() {
                   <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8 }}>
                     <span style={{ background: 'rgba(138, 124, 255, 0.15)', color: 'var(--purple)', padding: '4px 12px', borderRadius: 99, fontSize: '0.8rem', fontWeight: 800 }}>{student.plan}</span>
                     <div style={{ display: 'flex', gap: 8 }}>
-                      <button onClick={() => setEditingStudent(student)} style={{ padding: '6px 12px', fontSize: '0.8rem', background: 'transparent', border: '1px solid var(--line)', borderRadius: 6, cursor: 'pointer' }}>Editar Acesso</button>
+                      <button onClick={() => setEditingStudent(student)} style={{ padding: '6px 12px', fontSize: '0.8rem', background: 'transparent', border: '1px solid var(--line)', color: 'var(--text)', borderRadius: 6, cursor: 'pointer' }}>Editar Acesso</button>
                       <button onClick={() => setSelectedStudentProfile(student)} style={{ padding: '6px 12px', fontSize: '0.8rem', background: 'var(--plum)', color: '#fff', border: 'none', borderRadius: 6, cursor: 'pointer', fontWeight: 'bold' }}>Ver Perfil Completo</button>
                     </div>
                   </div>
@@ -906,6 +911,7 @@ export default function AdminHub() {
           </section>
         )}
 
+        {activeTab === 'library' && <LibraryAdminTab setLoading={setLoading} />}
       </main>
     </div>
   );
