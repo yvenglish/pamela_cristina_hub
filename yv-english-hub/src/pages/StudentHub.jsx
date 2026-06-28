@@ -53,11 +53,11 @@ export default function StudentHub() {
       const targetWeek = weeks.find(w => w.id === location.state.openWeekId);
       if (targetWeek) {
         setSelectedWeek(targetWeek);
-        // Clean up state so a refresh doesn't reopen it
-        navigate('.', { replace: true, state: {} });
+        // Clean up state so a refresh doesn't reopen it without causing React Router race conditions
+        window.history.replaceState({}, document.title);
       }
     }
-  }, [location.state, weeks, navigate]);
+  }, [location.state, weeks]);
 
   const fetchWeeks = async () => {
     try {

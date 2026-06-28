@@ -36,11 +36,11 @@ export default function Library() {
       const targetEp = episodes.find(e => e.id === location.state.openEpisodeId);
       if (targetEp) {
         setSelectedEpisode(targetEp);
-        // Clean up state so a refresh doesn't reopen it
-        navigate('.', { replace: true, state: {} });
+        // Clean up state so a refresh doesn't reopen it without causing React Router race conditions
+        window.history.replaceState({}, document.title);
       }
     }
-  }, [location.state, episodes, navigate]);
+  }, [location.state, episodes]);
 
   const favorites = userData?.libraryFavorites || [];
   const completed = userData?.libraryProgress || [];
