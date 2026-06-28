@@ -4,6 +4,7 @@ import { useTheme } from '../context/ThemeContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { db } from '../config/firebase';
 import { collection, query, where, getDocs, doc, updateDoc, getDoc, addDoc } from 'firebase/firestore';
+import { requestNotificationPermission } from '../services/notificationService';
 
 export default function StudentHub() {
   const { currentUser, userData, logout } = useAuth();
@@ -20,13 +21,31 @@ export default function StudentHub() {
   const [showDailyModal, setShowDailyModal] = useState(false);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [dailyLoading, setDailyLoading] = useState(false);
+  
+  // Notification State
+  const [showNotificationBanner, setShowNotificationBanner] = useState(false);
 
   useEffect(() => {
     if (currentUser) {
       fetchWeeks();
       fetchDailyAssignment();
+      
+      // Check if we should show the banner
+      if ('Notification' in window && Notification.permission === 'default' && userData?.plan !== 'Foundation') {
+         setShowNotificationBanner(true);
+      }
     }
   }, [currentUser, userData]);
+
+  const handleEnableNotifications = async () => {
+    const success = await requestNotificationPermission(currentUser.uid);
+    if (success) {
+      setShowNotificationBanner(false);
+      alert('Notificações ativadas com sucesso!');
+    } else {
+      alert('Não foi possível ativar as notificações.');
+    }
+  };
 
   // Read location state for global search selection
   useEffect(() => {
@@ -193,6 +212,18 @@ export default function StudentHub() {
       </header>
 
       <main>
+        {showNotificationBanner && (
+          <div style={{ background: 'rgba(138, 124, 255, 0.15)', border: '1px solid var(--purple)', borderRadius: 16, padding: '16px 24px', marginBottom: 30, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 15 }}>
+            <div>
+              <h4 style={{ margin: '0 0 5px 0', color: '#fff', fontSize: '1rem' }}>Lembrete Diário 🔔</h4>
+              <p style={{ margin: 0, color: 'var(--muted)', fontSize: '0.85rem' }}>Ative as notificações para receber seu alerta diário de estudos às 14h.</p>
+            </div>
+            <button onClick={handleEnableNotifications} style={{ background: 'var(--purple)', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: 99, fontWeight: 'bold', cursor: 'pointer' }}>
+              Ativar Alertas
+            </button>
+          </div>
+        )}
+
         <section className="quick-grid" aria-label="Atalhos principais">
           <button className="feature-card" onClick={handleDailyClick}>
             <span className="feature-icon">📌</span>

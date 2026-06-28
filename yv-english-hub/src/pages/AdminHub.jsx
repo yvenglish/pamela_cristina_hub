@@ -59,6 +59,7 @@ export default function AdminHub() {
   const [vocabAssignType, setVocabAssignType] = useState('deck');
   const [vocabAssignDeckId, setVocabAssignDeckId] = useState('');
   const [vocabAssignWordIds, setVocabAssignWordIds] = useState([]);
+
   const [studentVocabAssignments, setStudentVocabAssignments] = useState([]);
 
   // Scheduling State
