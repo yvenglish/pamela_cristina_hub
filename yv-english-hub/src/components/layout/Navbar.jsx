@@ -80,7 +80,7 @@ export default function Navbar() {
     <nav className="navbar">
       {/* Esquerda: Logo e Links */}
       <div className="nav-left">
-        <img src="/logo.png" alt="YV English" style={{ height: 40, cursor: 'pointer' }} onClick={() => navigate('/')} />
+        <img src="/logo.png" alt="YV English" style={{ height: 60, cursor: 'pointer' }} onClick={() => navigate('/')} />
         
         <div className="nav-links">
           <NavLink 
